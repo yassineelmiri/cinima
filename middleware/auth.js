@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function(req, res, next) {
-    const token = req.header('Authorization');
+module.exports = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+    
     if (!token) {
-        return res.status(401).json({ message: 'Pas de token, autorisation refusée' });
+        return res.status(401).json({ message: 'Accès refusé. Pas de token.' });
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded.userId;
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = verified; // Assure-toi que la structure de `verified` contient `_id`
         next();
-    } catch (err) {
-        res.status(401).json({ message: 'Token invalide' });
+    } catch (error) {
+        res.status(400).json({ message: 'Token invalide.' });
     }
 };
