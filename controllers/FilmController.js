@@ -1,6 +1,5 @@
 const Film = require("../models/Film");
 
-
 exports.addFilm = async (req, res) => {
   const { titre, description, duree, genre, dateSortie } = req.body;
   try {
@@ -14,7 +13,6 @@ exports.addFilm = async (req, res) => {
     });
   }
 };
-
 
 exports.getFilms = async (req, res) => {
   try {
