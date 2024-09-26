@@ -21,16 +21,16 @@ describe("ReservationController", () => {
       nom: "Test User",
       email: "test@example.com",
       motDePasse: "password",
-      numeroTelephone: "123456789", 
-      adresse: "123 Test St", 
-      role: "administrateur" 
+      numeroTelephone: "123456789",
+      adresse: "123 Test St",
+      role: "administrateur",
     });
     await client.save();
 
     const seance = new Seance({ date: new Date(), film: "Inception" });
     await seance.save();
 
-    const token = user.generateAuthToken(); 
+    const token = user.generateAuthToken();
     const res = await request(app)
       .post("/api/reservations")
       .set("Authorization", `Bearer ${token}`)
@@ -46,7 +46,7 @@ describe("ReservationController", () => {
       motDePasse: "password",
       numeroTelephone: "123456789",
       adresse: "123 Test St",
-      role: "administrateur"
+      role: "administrateur",
     });
     await user.save();
 
@@ -60,7 +60,9 @@ describe("ReservationController", () => {
     });
     await reservation.save();
 
-    const res = await request(app).delete(`/api/reservations/${reservation._id}`);
+    const res = await request(app).delete(
+      `/api/reservations/${reservation._id}`
+    );
     expect(res.statusCode).toBe(204);
   });
 });
