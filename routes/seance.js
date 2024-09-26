@@ -3,9 +3,9 @@ const router = express.Router();
 const SeanceController = require('../controllers/SeanceController');
 const authMiddleware = require('../middleware/auth');
 
-router.post('/', authMiddleware, SeanceController.addSeance);
+router.post('/', SeanceController.addSeance);
 router.get('/', SeanceController.getSeances);
-router.put('/:id', authMiddleware, SeanceController.updateSeance);
-router.delete('/:id', authMiddleware, SeanceController.deleteSeance);
+router.put('/:id', SeanceController.updateSeance);
+router.delete('/:id', SeanceController.deleteSeance);
 
 module.exports = router;
