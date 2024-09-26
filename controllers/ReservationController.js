@@ -4,9 +4,15 @@ const Reservation = require("../models/Reservation");
 exports.makeReservation = async (req, res) => {
     const { seance, places } = req.body;
 
+    // Vérifie si l'utilisateur est authentifié
+    if (!req.user || !req.user._id) {
+        return res.status(401).json({ message: 'Utilisateur non authentifié' });
+    }
+
     try {
         const reservation = new Reservation({ client: req.user._id, seance, places });
         await reservation.save();
+
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -34,14 +40,26 @@ exports.makeReservation = async (req, res) => {
     }
 };
 
-
 exports.cancelReservation = async (req, res) => {
-  const { id } = req.params;
-  await Reservation.findByIdAndDelete(id);
-  res.status(204).send();
+    const { id } = req.params;
+
+    try {
+        await Reservation.findByIdAndDelete(id);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de l\'annulation de la réservation', error: error.message });
+    }
 };
 
 exports.getReservations = async (req, res) => {
-  const reservations = await Reservation.find({ client: req.user }).populate("seance");
-  res.json(reservations);
+    if (!req.user || !req.user._id) {
+        return res.status(401).json({ message: 'Utilisateur non authentifié' });
+    }
+
+    try {
+        const reservations = await Reservation.find({ client: req.user._id }).populate("seance");
+        res.json(reservations);
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la récupération des réservations', error: error.message });
+    }
 };
