@@ -26,7 +26,11 @@ app.get('/', (req, res) => {
     res.send('Bienvenue dans le projet de gestion de cinéma');
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
-});
+module.exports = app;
+
+if (require.main === module) {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+        console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
+    });
+}
