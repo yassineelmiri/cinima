@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-// Définition du schéma pour l'utilisateur
+
 const userSchema = new mongoose.Schema({
   nom: { type: String, required: true },
   email: { type: String, required: true, unique: true },
@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpiry: { type: Date },
 });
 
-// Middleware pour hacher le mot de passe avant de sauvegarder l'utilisateur
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("motDePasse")) return next();
   const salt = await bcrypt.genSalt(10);
@@ -23,11 +23,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Méthode pour comparer le mot de passe saisi avec celui stocké
+
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.motDePasse);
 };
 
-// Création du modèle User
+
 const User = mongoose.model("User", userSchema);
 module.exports = User;
