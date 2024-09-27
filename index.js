@@ -8,7 +8,6 @@ const seanceRoutes = require("./routes/seance");
 const reservationRoutes = require("./routes/reservation");
 
 dotenv.config();
-
 const app = express();
 app.use(express.json());
 
