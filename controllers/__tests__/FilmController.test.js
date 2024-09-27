@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Film = require("../../models/Film");
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 
 describe("FilmController", () => {
   let token;
