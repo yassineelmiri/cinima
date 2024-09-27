@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const AuthController = require("../controllers/AuthController");
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
-router.post("/register", AuthController.register);
+
+router.post("/register", upload.single('image'), AuthController.register);
 router.post("/login", AuthController.login);
 router.post("/logout", AuthController.logout);
 router.post("/forgot-password", AuthController.forgotPassword);
 router.post("/reset-password", AuthController.resetPassword);
+
+
 
 module.exports = router;
